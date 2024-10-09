@@ -1,0 +1,6 @@
+@LeaseControl.Api_HostAddress = http://localhost:5222
+
+GET {{LeaseControl.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
