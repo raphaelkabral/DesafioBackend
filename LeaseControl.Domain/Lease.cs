@@ -8,14 +8,14 @@ namespace LeaseControl.Domain
 {
     public class Lease
     {
-        public Guid Id { get; private set; }
+        public int Id { get; private set; }
         public Guid DeliveryManId { get; private set; }
         public Guid MotorcycleId { get; private set; }
         public DateTime StartDate { get; private set; }
         public DateTime ExpectedEndDate { get; private set; }
         public DateTime? EndDate { get; private set; }
         public decimal ValueTotal { get; private set; }
-        public Lease(Guid id, Guid deliveryManId, Guid motorcycleId, DateTime startDate, DateTime expectedEndDate)
+        public Lease(int id, Guid deliveryManId, Guid motorcycleId, DateTime startDate, DateTime expectedEndDate)
         {
             Id = id;
             DeliveryManId = deliveryManId;

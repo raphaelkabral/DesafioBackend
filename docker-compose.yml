@@ -1,0 +1,23 @@
+version: '3.4'
+services:
+  leasecontrol.api:
+    image: ${DOCKER_REGISTRY-}leasecontrolapi
+    build:
+      context: .
+      dockerfile: LeaseControl.Api/Dockerfile
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: MotoDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+   
+   

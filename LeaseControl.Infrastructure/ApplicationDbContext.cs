@@ -11,7 +11,7 @@ namespace LeaseControl.Infrastructure
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Motorcycle> Motos { get; set; }
+        public DbSet<Motorcycle> Motorcycles { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

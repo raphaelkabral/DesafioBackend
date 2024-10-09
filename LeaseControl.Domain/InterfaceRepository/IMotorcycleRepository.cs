@@ -9,6 +9,11 @@ namespace LeaseControl.Domain.InterfaceRepository
     public  interface IMotorcycleRepository
     {
         Task AddAsync(Motorcycle moto);
-        Task<Motorcycle> GetByIdAsync(Guid id);
+        Task RemoveAsync(int id);
+        Task UpdateAsync(Motorcycle moto);
+        Task<Motorcycle> GetByIdAsync(int id);
+
+        Task<Motorcycle> GetByPlateAsync(string plate);
+        Task<IEnumerable<Motorcycle>> GetAllAsync();
     }
 }

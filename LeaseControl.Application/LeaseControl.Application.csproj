@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LeaseControl.Domain\LeaseControl.Domain.csproj" />
+    <ProjectReference Include="..\LeaseControl.Infrastructure\LeaseControl.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

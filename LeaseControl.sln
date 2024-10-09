@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaseControl.Application", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LeaseControl.Api", "LeaseControl.Api", "{ABC508BA-696F-49FB-82C2-9C6498C3A7AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeaseControl.Api", "LeaseControl.Api\LeaseControl.Api.csproj", "{B3188142-39A4-49A9-A1D5-7289D4540C92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeaseControl.Api", "LeaseControl.Api\LeaseControl.Api.csproj", "{B3188142-39A4-49A9-A1D5-7289D4540C92}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{7C812490-465A-446D-9BF1-2DE4FCB23341}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{B3188142-39A4-49A9-A1D5-7289D4540C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3188142-39A4-49A9-A1D5-7289D4540C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3188142-39A4-49A9-A1D5-7289D4540C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C812490-465A-446D-9BF1-2DE4FCB23341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C812490-465A-446D-9BF1-2DE4FCB23341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C812490-465A-446D-9BF1-2DE4FCB23341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C812490-465A-446D-9BF1-2DE4FCB23341}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

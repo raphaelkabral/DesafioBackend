@@ -20,14 +20,38 @@ namespace LeaseControl.Infrastructure.Repository
 
         public async Task AddAsync(Motorcycle moto)
         {
-            await _context.Motos.AddAsync(moto);
+            await _context.Motorcycles.AddAsync(moto);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Motorcycle> GetByIdAsync(Guid id)
+        public async Task RemoveAsync(int id)
         {
-            return await _context.Motos.FindAsync(id);
+            var plate = await _context.Motorcycles.AsQueryable().Where(p => p.Id == id).FirstOrDefaultAsync();
+            _context.Motorcycles.Remove(plate);
+            await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(Motorcycle moto)
+        {
+            _context.Motorcycles.Update(moto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Motorcycle> GetByIdAsync(int id)
+        {
+            return await _context.Motorcycles.FindAsync(id);
+        }
+
+        public async Task<Motorcycle> GetByPlateAsync(string plate)
+        {
+            return _context.Motorcycles.Where(p => p.Plate == plate).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Motorcycle>> GetAllAsync()
+        {
+            return await _context.Motorcycles.ToListAsync();
+        }
+
     }
-   
+
 }
