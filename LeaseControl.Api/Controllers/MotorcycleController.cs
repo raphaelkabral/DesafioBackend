@@ -33,15 +33,15 @@ namespace LeaseControl.Api.Controllers
         /// <summary>
         /// Consultar motos exitentes
         /// </summary>
-        /// <param name="motos"></param>
+        /// <param name="plate"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GatAll()
+        public async Task<IActionResult> GatAll(string plate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _motoService.GetAllMotorcycle();
+            await _motoService.GetMotorcycles(plate);
             return CreatedAtAction(nameof(GatAll), null);
         }
 
@@ -50,43 +50,43 @@ namespace LeaseControl.Api.Controllers
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> UpdateMotorocycle([FromBody] string plate)
+        [HttpPut]
+        public async Task<IActionResult> UpdateMotorocycle(string id, [FromBody] string plate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _motoService.UpdateMotorcycle(plate);
+            Guid guid = Guid.Parse(id);
+            await _motoService.UpdateMotorcycle(guid, plate);
             return CreatedAtAction(nameof(UpdateMotorocycle), plate);
         }
 
         /// <summary>
         /// Consulta motos existentes por id
         /// </summary>
-        /// <param name="plate"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> GetByIdMotorocycle([FromBody] int id)
+        [HttpGet]
+        public async Task<IActionResult> GetByIdMotorocycle(string id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _motoService.GetByIdMotorcycle(id);
+            Guid guid = Guid.Parse(id);
+            await _motoService.GetByIdMotorcycle(guid);
             return CreatedAtAction(nameof(GetByIdMotorocycle), new { id = id });
         }
 
         /// <summary>
         /// Remover uma moto
         /// </summary>
-        /// <param name="moto"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> RemoveMotorocycle([FromBody] int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> RemoveMotorocycle(string id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _motoService.RemoveMotorcycle(id);
+            Guid guid = Guid.Parse(id);
+            await _motoService.RemoveMotorcycle(guid);
             return CreatedAtAction(nameof(RemoveMotorocycle), new { id = id });
         }
 

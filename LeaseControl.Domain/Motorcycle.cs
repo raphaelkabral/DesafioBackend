@@ -11,18 +11,12 @@ namespace LeaseControl.Domain
 {
     public class Motorcycle
     {
-        public int Id { get; private set; }
-        public int Year { get; private set; }
-        public string Model { get; private set; }
-        public string Plate { get; private set; }
+        public Guid Id { get;  set; }
+        public int Year { get;  set; }
+        public string Model { get;  set; }
+        public string Plate { get;  set; }
 
-        public Motorcycle(int id, int year, string model, string plate)
-        {
-            Id = id;
-            Year = year;
-            Model = model;
-            Plate = plate;
-        }
+        public ICollection<Lease>  Leases { get; set; } = new List<Lease>();
     }
    
 }

@@ -9,11 +9,11 @@ namespace LeaseControl.Application.IServices
 {
     public interface IMotorcycleService
     {
-        Task AddMotorcycle(Motorcycle motorcycle);
-        Task UpdateMotorcycle(string plate);
-        Task RemoveMotorcycle(int id);
-        Task GetByIdMotorcycle(int plate);
-        Task<IEnumerable<Motorcycle>> GetAllMotorcycle();
+        Task<Motorcycle> AddMotorcycle(Motorcycle motorcycle);
+        Task<Motorcycle> UpdateMotorcycle(Guid id, string novaPlaca);
+        Task<bool>RemoveMotorcycle(Guid id);
+        Task<Motorcycle> GetByIdMotorcycle(Guid plate);
+        Task<IEnumerable<Motorcycle>> GetMotorcycles(string? plate);
 
 
 

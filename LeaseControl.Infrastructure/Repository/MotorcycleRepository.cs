@@ -24,7 +24,7 @@ namespace LeaseControl.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(Guid id)
         {
             var plate = await _context.Motorcycles.AsQueryable().Where(p => p.Id == id).FirstOrDefaultAsync();
             _context.Motorcycles.Remove(plate);
@@ -37,7 +37,7 @@ namespace LeaseControl.Infrastructure.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Motorcycle> GetByIdAsync(int id)
+        public async Task<Motorcycle> GetByIdAsync(Guid id)
         {
             return await _context.Motorcycles.FindAsync(id);
         }
@@ -51,6 +51,7 @@ namespace LeaseControl.Infrastructure.Repository
         {
             return await _context.Motorcycles.ToListAsync();
         }
+               
 
     }
 
