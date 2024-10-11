@@ -34,7 +34,7 @@ namespace LeaseControl.Infrastructure
             modelBuilder.Entity<Lease>()
            .HasOne(r => r.PlanLease)
            .WithMany()
-           .HasForeignKey(r => r.PlanLease.Id); // Defina a chave estrangeira
+           .HasForeignKey(r => r.PlanLeaseId); // Defina a chave estrangeira
 
             modelBuilder.Entity<PlanLease>()
                 .HasData(

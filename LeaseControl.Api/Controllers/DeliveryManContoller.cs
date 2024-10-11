@@ -6,11 +6,11 @@ namespace LeaseControl.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DeliveryManContoller : ControllerBase
+    public class DeliverymanContoller : ControllerBase
     {
         private readonly IDeliveryManService _deliveryManService;
 
-        public DeliveryManContoller(IDeliveryManService deliveryManService)
+        public DeliverymanContoller(IDeliveryManService deliveryManService)
         {
             _deliveryManService = deliveryManService;
         }

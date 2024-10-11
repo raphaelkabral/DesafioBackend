@@ -17,5 +17,7 @@ namespace LeaseControl.Domain
         public string TypeCnh { get; set; } // A, B, A+B
         public string ImageCnh { get; set; } // URL para armazenamento
 
+        public ICollection<Lease> Leases { get; set; } = new List<Lease>();
+
     }
 }

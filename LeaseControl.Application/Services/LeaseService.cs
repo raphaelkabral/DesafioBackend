@@ -45,6 +45,8 @@ namespace LeaseControl.Application.Services
         public async Task<decimal> CalculateCost(Guid leaseId, DateTime actualReturnDate)
         {        
             var rental = await _leaserRepository.GetByIdLease(leaseId);
+            rental.ExpectedEndDate = actualReturnDate;
+            await _leaserRepository.ReturnLease(rental);
             return rental.CalculateTotalCost(actualReturnDate);
         }
 

@@ -6,10 +6,11 @@ using LeaseControl.Infrastructure.Mensageria;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RabbitMQ.Client;
+using System.Security.Cryptography.Xml;
 
 namespace LeaseControl.Tests
 {
-    public class MotorcycleUnitTest
+    public class MotorcycleTest
     {
 
         private readonly IMotorcycleService _motorcycleService;
@@ -17,7 +18,7 @@ namespace LeaseControl.Tests
         private readonly Mock<ILeaserRepository> _leaserRepositoryMock;
         private readonly Mock<IModel> _eventPublisherMock;
 
-        public MotorcycleUnitTest()
+        public MotorcycleTest()
         {
             _motoRepositoryMock = new Mock<IMotorcycleRepository>();
             _leaserRepositoryMock = new Mock<ILeaserRepository>();
@@ -26,13 +27,20 @@ namespace LeaseControl.Tests
         }
 
         [Fact]
-        public async Task CadastrarMoto_CadastraComSucesso()
+        public async Task AddMotorcycle_Sucess()
         {
             // Arrange
             var mockRepo = new Mock<IMotorcycleRepository>();
             var mockNotifier = new Mock<MotorcycleNotifier>();
-            
-            var moto = new Motorcycle(2024, "Modelo X", "ABC-1234");
+
+            var moto = new Motorcycle()
+            {
+                Id = new Guid(),
+                Model = "Modelo X",
+                Year = 2024,
+                Plate = "ABC-1234",
+                Leases = new List<Lease>()
+            };
 
             mockRepo.Setup(r => r.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(moto);
 
@@ -45,5 +53,72 @@ namespace LeaseControl.Tests
             mockNotifier.Verify(n => n.NotifyMotorcyle(moto), Times.Once);
         }
 
+
+        [Fact]
+        public void AddMotorcycle_ExistsPlate_Exception()
+        {
+            var moto = new Motorcycle()
+            {
+                Id = new Guid(),
+                Model = "Modelo X",
+                Year = 2024,
+                Plate = "ABC-1234",
+                Leases = new List<Lease>()
+            };
+
+            var moto2 = new Motorcycle()
+            {
+                Id = new Guid(),
+                Model = "Modelo X",
+                Year = 2024,
+                Plate = "ABC-1234",
+                Leases = new List<Lease>()
+            };
+            // Arrange
+            _motoRepositoryMock.Setup(repo => repo.GetByPlateAsync(It.IsAny<string>())).ReturnsAsync(moto);
+
+            // Act & Assert
+            Assert.ThrowsAsync<Exception>(() => _motorcycleService.AddMotorcycle(moto2));
+        }
+
+        [Fact]
+        public void GetMotorcycle_WhenPlateExists_ReturnNull()
+        {
+            // Arrange
+            string plate = "XYZ-9999";
+            Motorcycle  motorcycle = new ();
+            _motoRepositoryMock.Setup(repo => repo.GetByPlateAsync(It.IsAny<string>())).ReturnsAsync((motorcycle));
+
+            // Act
+            Guid guid = Guid.Parse(plate); 
+            var result = _motorcycleService.GetByIdMotorcycle(guid);
+
+            // Assert
+            Assert.Null(result.Result);
+        }
+
+        [Fact]
+        public void UpdatePlate()
+        {
+            // Arrange
+            var moto = new Motorcycle()
+            {
+                Id = new Guid(),
+                Model = "Modelo X",
+                Year = 2024,
+                Plate = "ABC-1234",
+                Leases = new List<Lease>()
+            };
+
+            _motoRepositoryMock.Setup(repo => repo.GetByPlateAsync(It.IsAny<string>())).ReturnsAsync(moto);
+            _motoRepositoryMock.Setup(repo => repo.UpdateAsync(moto)).Verifiable();
+
+            // Act
+            _motorcycleService.UpdateMotorcycle(moto.Id, "DEF-5678");
+
+            // Assert
+            Assert.Equal("DEF-5678", moto.Plate);
+            _motoRepositoryMock.Verify(repo => repo.UpdateAsync(moto), Times.Once);
+        }
     }
 }

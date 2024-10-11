@@ -67,7 +67,7 @@ namespace LeaseControl.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdMotorocycle(string id)
         {
             if (!ModelState.IsValid)

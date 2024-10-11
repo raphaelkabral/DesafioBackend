@@ -38,5 +38,6 @@ namespace LeaseControl.Infrastructure.Repository
             _context.Leasess.Update(lease);
             await _context.SaveChangesAsync();
         }
+       
     }
 }
