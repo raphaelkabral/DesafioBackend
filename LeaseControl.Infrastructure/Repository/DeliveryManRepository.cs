@@ -34,6 +34,15 @@ namespace LeaseControl.Infrastructure.Repository
             return await _context.Deliverymens.Where(p => p.CNH.Contains(cnh)).FirstOrDefaultAsync();
         }
 
+        public async Task UpdateAsync(DeliveryMan deliveryMan)
+        {
+            _context.Deliverymens.Update(deliveryMan);
+            await _context.SaveChangesAsync();
+        }
 
+        public async Task<DeliveryMan> GetByIdAsync(Guid id)
+        {
+            return await _context.Deliverymens.FindAsync(id);
+        }
     }
 }

@@ -30,6 +30,20 @@ namespace LeaseControl.Infrastructure
             modelBuilder.Entity<DeliveryMan>()
                 .HasIndex(e => e.CNH)
                 .IsUnique();
+
+            modelBuilder.Entity<Lease>()
+           .HasOne(r => r.PlanLease)
+           .WithMany()
+           .HasForeignKey(r => r.PlanLease.Id); // Defina a chave estrangeira
+
+            modelBuilder.Entity<PlanLease>()
+                .HasData(
+                    new PlanLease { Id = 1, Name = "7 Dias", DailyRate = 30, DurationDays = 7 },
+                    new PlanLease { Id = 2, Name = "15 Dias", DailyRate = 28, DurationDays = 15 },
+                    new PlanLease { Id = 3, Name = "30 Dias", DailyRate = 22, DurationDays = 30 },
+                    new PlanLease { Id = 4, Name = "45 Dias", DailyRate = 20, DurationDays = 45 },
+                    new PlanLease { Id = 5, Name = "50 Dias", DailyRate = 18, DurationDays = 50 }
+                );
         }
     }
 }

@@ -6,7 +6,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace LeaseControl.Infrastructure
+namespace LeaseControl.Infrastructure.Mensageria
 {
     public class MotorcycleConsumer : IHostedService
     {
@@ -31,12 +31,14 @@ namespace LeaseControl.Infrastructure
                 var mensagem = Encoding.UTF8.GetString(body);
                 var moto = JsonConvert.DeserializeObject<Motorcycle>(mensagem);
 
-                if (moto.Year == 2024)
+                if (moto!.Year == 2024)
                 {
                     await _motoRepository.AddAsync(moto);
                 }
             };
             _channel.BasicConsume(queue: "moto_cadastrada", autoAck: true, consumer: consumer);
+
+
             return Task.CompletedTask;
         }
 
@@ -47,4 +49,3 @@ namespace LeaseControl.Infrastructure
         }
     }
 }
-

@@ -1,7 +1,7 @@
 ﻿using LeaseControl.Application.Services;
 using LeaseControl.Domain;
+using LeaseControl.Infrastructure.Mensageria;
 using Microsoft.AspNetCore.Mvc;
-
 namespace LeaseControl.Api.Controllers
 {
     [ApiController]
@@ -9,10 +9,11 @@ namespace LeaseControl.Api.Controllers
     public class MotorcycleController : ControllerBase
     {
         private readonly MotorcycleService _motoService;
-
-        public MotorcycleController(MotorcycleService motoService)
+        private readonly MotorcycleNotifier _motoNotifier;
+        public MotorcycleController(MotorcycleService motoService, MotorcycleNotifier motorcycleNotifier)
         {
             _motoService = motoService;
+            _motoNotifier = motorcycleNotifier;
         }
 
         /// <summary>
@@ -26,7 +27,8 @@ namespace LeaseControl.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _motoService.AddMotorcycle(moto);
+            var newMoto = await _motoService.AddMotorcycle(moto);
+            await _motoNotifier.NotifyMotorcyle(newMoto);
             return CreatedAtAction(nameof(AddMotorcycle), new { id = moto.Id }, moto);
         }
 
@@ -41,8 +43,8 @@ namespace LeaseControl.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _motoService.GetMotorcycles(plate);
-            return CreatedAtAction(nameof(GatAll), null);
+            var motos = await _motoService.GetMotorcycles(plate);
+            return Ok(motos);
         }
 
         /// <summary>
@@ -50,14 +52,14 @@ namespace LeaseControl.Api.Controllers
         /// </summary>
         /// <param name="plate"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPut("{id}/plate")]
         public async Task<IActionResult> UpdateMotorocycle(string id, [FromBody] string plate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             Guid guid = Guid.Parse(id);
-            await _motoService.UpdateMotorcycle(guid, plate);
-            return CreatedAtAction(nameof(UpdateMotorocycle), plate);
+            var moto = await _motoService.UpdateMotorcycle(guid, plate);
+            return Ok(moto);
         }
 
         /// <summary>
@@ -71,8 +73,8 @@ namespace LeaseControl.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             Guid guid = Guid.Parse(id);
-            await _motoService.GetByIdMotorcycle(guid);
-            return CreatedAtAction(nameof(GetByIdMotorocycle), new { id = id });
+            var moto = await _motoService.GetByIdMotorcycle(guid);
+            return Ok(moto);
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace LeaseControl.Api.Controllers
                 return BadRequest(ModelState);
             Guid guid = Guid.Parse(id);
             await _motoService.RemoveMotorcycle(guid);
-            return CreatedAtAction(nameof(RemoveMotorocycle), new { id = id });
+            return NoContent();
         }
 
 

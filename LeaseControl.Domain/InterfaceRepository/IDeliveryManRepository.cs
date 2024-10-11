@@ -11,6 +11,7 @@ namespace LeaseControl.Domain.InterfaceRepository
         Task AddDeliveryMan(DeliveryMan deliveryMan);
         Task<DeliveryMan> GetByCNPJ(string cnpj);
         Task<DeliveryMan> GetByCNH(string cnh);
-
+        Task UpdateAsync(DeliveryMan deliveryMan);
+        Task<DeliveryMan> GetByIdAsync(Guid id);
     }
 }

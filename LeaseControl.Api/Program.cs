@@ -1,5 +1,9 @@
+using LeaseControl.Domain.InterfaceRepository;
 using LeaseControl.Infrastructure;
+using LeaseControl.Infrastructure.Mensageria;
+using LeaseControl.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,13 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+builder.Services.AddScoped<IDeliveryManRepository, DeliveryManRepository>();
+builder.Services.AddScoped<ILeaserRepository, LeaserRepository>();
+builder.Services.AddSingleton<MotorcycleNotifier>();
+builder.Services.AddHostedService<MotorcycleConsumer>();
 
-
-
-//// Configurar o consumidor
-//var serviceProvider = builder.Services.BuildServiceProvider();
-//var consumer = new MotoConsumer(serviceProvider.GetRequiredService<ApplicationDbContext>());
-//consumer.Consume();
+builder.Services.AddSingleton<IModel>(provider =>
+{
+    var factory = new ConnectionFactory() { HostName = "localhost" };
+    var connection = factory.CreateConnection();
+    return connection.CreateModel();
+});
 
 // Add services to the container.
 

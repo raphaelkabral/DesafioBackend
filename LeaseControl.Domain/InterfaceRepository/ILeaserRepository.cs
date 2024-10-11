@@ -9,5 +9,9 @@ namespace LeaseControl.Domain.InterfaceRepository
     public interface ILeaserRepository
     {
         Task<bool> ExistsLoacation(Guid id);
+        Task AddLease(Lease lease);
+        Task<Lease> GetByIdLease(Guid id);
+        Task ReturnLease(Lease lease);
+
     }
 }

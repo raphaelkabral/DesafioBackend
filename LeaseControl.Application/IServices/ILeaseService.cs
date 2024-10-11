@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace LeaseControl.Application.IServices
 {
-    public  interface IDeliveryManService
+    public interface ILeaseService
     {
-        Task<DeliveryMan> AddDeliveryMan(DeliveryMan deliveryMan);
-        Task UpdateCNHAsync(Guid id, Stream cnhStream, string fileName);
+        Task<Lease> Addlease(Lease lease);
+        Task<Lease> GetbyIdlease(Guid lease);
+        Task<decimal> CalculateCost(Guid leaseId, DateTime actualReturnDate);
     }
 }
